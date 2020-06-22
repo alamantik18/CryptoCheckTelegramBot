@@ -8,7 +8,7 @@ chardet==3.0.4
 colorama==0.4.3
 cycler==0.10.0
 distlib==0.3.0
-Django==3.0.4
+Django==3.0.7
 filelock==3.0.12
 get==2019.4.13
 idna==2.9
