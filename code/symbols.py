@@ -12,12 +12,14 @@ def get_html(url, params=None):
 
 def get_content(html):
     soup = BeautifulSoup(html, 'html.parser')
-    items = soup.find_all('td', class_='cmc-table__cell cmc-table__cell--sortable cmc-table__cell--left cmc-table__cell--sort-by__symbol')
+    items = soup.find_all('tr', class_='cmc-table-row')
     symbols = []
     for item in items:
-        symbols.append(
-           item.find('div').get_text(),
-        )
+        symbols.extend([
+           item.find('a', class_='cmc-link').get_text(),
+           item.find('td', class_='cmc-table__cell cmc-table__cell--sortable cmc-table__cell--left cmc-table__cell--sort-by__symbol').get_text(),
+           item.find('td', class_='cmc-table__cell cmc-table__cell--sortable cmc-table__cell--right cmc-table__cell--sort-by__price').get_text(),
+        ])
     return symbols
 
 
@@ -25,5 +27,4 @@ def parse():
     html = get_html(URL)
     symbols = get_content(html.text)
     return symbols
-
 
