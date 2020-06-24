@@ -4,13 +4,12 @@ import symbols
 
 def main():
     bot=telebot.TeleBot(constants.token)
-    mass = symbols.parse()
-    names = mass[::3]
-    fast_name = mass[1::3]
-    price = mass[2::3]
+    names = symbols.parse()[0][0::2]
+    fast_name = symbols.parse()[0][1::2]
+    list_mass = [names[i] + " => " + fast_name[i] for i in range(0, 200)]
+    print(list_mass)
+    print(symbols.parse())
     #fast_name = [element.lower() for element in fast_name]
-    print(mass)
-    print(fast_name)
 
     @bot.message_handler(commands=['start'])
     def handler_start(message):
@@ -32,23 +31,25 @@ def main():
 
     @bot.message_handler(commands=['list'])
     def handler_list(message):
-        bot.send_message(message.from_user.id,
-                        "Cписок всех возможных валют: " + str(mass[1::3]))
+        bot.send_message(message.from_user.id, "Список всех валют:\n" + str(list_mass))
 
     @bot.message_handler(content_types=['text'])
     def get_text_messages(message):
-        if message.text == 'Привет':
-            bot.send_message(message.from_user.id,
-                             'Да да, я тут.')
-        for i in range(0, len(fast_name), 1):
-            if message.text == fast_name[i]:
-                bot.send_message(message.from_user.id, "Цена на " + names[i] + "(" + fast_name[i] +") " + " = " + price[i])
+        if message.text.upper() == 'ПРИВЕТ':
+            bot.send_message(message.from_user.id, 'Да да, я тут.')
+        elif message.text.upper() in fast_name:
+            price = symbols.parse()[1]
+            bot.send_message(message.from_user.id, "Цена на " + names[fast_name.index(message.text.upper())] + "(" + fast_name[fast_name.index(message.text.upper())] +")" + " = " + price[fast_name.index(message.text.upper())])
+            print("Цена на " + names[fast_name.index(message.text.upper())] + "(" + fast_name[fast_name.index(message.text.upper())] +")" + " = " + price[fast_name.index(message.text.upper())])
+            price.clear()
+        elif message.text.upper() in fast_name == False or message.text.upper() != "ПРИВЕТ":
+            bot.send_message(message.from_user.id, "Данная валюта не найдена, возможно, ошибка в написании")
+            print("Error")
 
         if message.text == 'list':
-            bot.send_message(message.from_user.id, "Список всех возможных валют: " + str(mass[1::3]))
+            bot.send_message(message.from_user.id, "Список всех валют:\n" + str(list_mass))
 
     bot.polling(none_stop=True, interval=0)
-
 
 if __name__ == '__main__':
     main()
