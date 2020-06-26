@@ -4,10 +4,12 @@ import symbols
 
 def main():
     bot=telebot.TeleBot(constants.token)
-    names = symbols.parse()[0][0::2]
-    fast_name = symbols.parse()[0][1::2]
+    names = symbols.parse()[0][0::5]
+    fast_name = symbols.parse()[0][1::5]
     list_mass = [names[i] + " => " + fast_name[i] for i in range(0, 200)]
-    print(list_mass)
+    hour = symbols.parse()[0][2::5]
+    day = symbols.parse()[0][3::5]
+    week = symbols.parse()[0][4::5]
     print(symbols.parse())
     #fast_name = [element.lower() for element in fast_name]
 
@@ -40,6 +42,7 @@ def main():
         elif message.text.upper() in fast_name:
             price = symbols.parse()[1]
             bot.send_message(message.from_user.id, "Цена на " + names[fast_name.index(message.text.upper())] + "(" + fast_name[fast_name.index(message.text.upper())] +")" + " = " + price[fast_name.index(message.text.upper())])
+            bot.send_message(message.from_user.id, "Изменения за час: " + hour[fast_name.index(message.text.upper())] + "\nИзменения за день: " + day[fast_name.index(message.text.upper())] + "\nИзменения за неделю: " + week[fast_name.index(message.text.upper())])
             print("Цена на " + names[fast_name.index(message.text.upper())] + "(" + fast_name[fast_name.index(message.text.upper())] +")" + " = " + price[fast_name.index(message.text.upper())])
             price.clear()
         elif message.text.upper() in fast_name == False or message.text.upper() != "ПРИВЕТ":

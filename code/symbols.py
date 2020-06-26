@@ -20,6 +20,9 @@ def get_content(html):
         symbols.extend([
                 item.find('a', class_='cmc-link').get_text(),
                 item.find('td', class_="cmc-table__cell cmc-table__cell--sortable cmc-table__cell--left cmc-table__cell--sort-by__symbol").get_text(),
+                item.find('td', class_="cmc-table__cell cmc-table__cell--sortable cmc-table__cell--right cmc-table__cell--sort-by__percent-change-1-h").get_text(),
+                item.find('td', class_="cmc-table__cell cmc-table__cell--sortable cmc-table__cell--right cmc-table__cell--sort-by__percent-change-24-h").get_text(),
+                item.find('td', class_="cmc-table__cell cmc-table__cell--sortable cmc-table__cell--right cmc-table__cell--sort-by__percent-change-7-d").get_text()
             ])
         price.append(
             item.find('td', class_="cmc-table__cell cmc-table__cell--sortable cmc-table__cell--right cmc-table__cell--sort-by__price").get_text()
