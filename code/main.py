@@ -1,3 +1,4 @@
+# coding=utf-8
 import telebot
 import constants
 import symbols
@@ -8,7 +9,6 @@ def main():
     fast_name = symbols.parse()[0][1::2]
     list_mass = [names[i] + " => " + fast_name[i] for i in range(0, 200)]
     print(symbols.parse())
-    #fast_name = [element.lower() for element in fast_name]
 
     @bot.message_handler(commands=['start'])
     def handler_start(message):
